@@ -6,54 +6,35 @@ import { Pressable } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { AntDesign } from '@expo/vector-icons';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: Colors.primary,
+                tabBarInactiveTintColor: Colors.textSupporting,
+                // Disable the static render of the header on web
+                // to prevent a hydration error in React Navigation v6.
+                headerShown: useClientOnlyValue(false, true),
+                tabBarStyle: { backgroundColor: Colors.background },
+                headerStyle: { backgroundColor: Colors.background },
+                headerTintColor: Colors.text, // Cambia il colore del testo nell'header
+            }}>
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: 'Search',
+                    tabBarIcon: ({ color }) => <AntDesign name="search1" size={28} color={color} />
+                }}
+            />
+            <Tabs.Screen
+                name="two"
+                options={{
+                    title: 'Library',
+                    tabBarIcon: ({ color }) => <AntDesign name="book" size={24} color={color} />
+                }}
+            />
+        </Tabs>
+    );
 }
