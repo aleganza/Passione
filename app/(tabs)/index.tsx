@@ -4,27 +4,48 @@ import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
 import { ANIME, IAnimeResult } from '@consumet/extensions';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 
 export default function TabOneScreen() {
-    const [results, setResults] = useState<IAnimeResult[]>();
+    const [results, setResults] = useState<IAnimeResult[]>()
+    const [text, setText] = useState<string>()
+    const [loading, setLoading] = useState<boolean>(false)
 
     const handleSearchChange = (searchText: string) => {
-        if(searchText === '') return
+        if(searchText === '') {
+            setLoading(false)
+            setResults([])
+            return
+        }
+
+        setLoading(true)
 
         const au = new ANIME.AnimeUnity({ url: Utils.proxyUrl })
         const response = au.search(searchText).then(data => {
             setResults(data.results)
+            setLoading(false)
         })
     };
 
     return (
         <View style={styles.container}>
             <SearchAnime onSearchChange={handleSearchChange} />
+            {loading && 
+                <ActivityIndicator 
+                    size="small" 
+                    color={Colors.text}
+                    style={styles.loading} />}
             <ScrollView contentContainerStyle={styles.grid}>
-                {results?.map(result => (
-                    <AnimeCard key={result.id} animeResult={result}></AnimeCard>
-                ))}
+                {results?.length === 0
+                    ?
+                    <Text style={styles.error}>No results</Text>
+                    :
+                    <>
+                        {results?.map(result => (
+                            <AnimeCard key={result.id} animeResult={result}></AnimeCard>
+                        ))}
+                    </>
+                }
             </ScrollView>
         </View>
     );
@@ -41,9 +62,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 10,
     },
-    title: {
-        color: Colors.primary,
+    loading: {
+        marginBottom: 10
+    },
+    error: {
+        color: Colors.textShy,
         fontSize: 20,
-        fontWeight: 'bold',
     },
 });

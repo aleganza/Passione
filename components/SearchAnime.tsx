@@ -19,7 +19,7 @@ const SearchAnime: React.FunctionComponent<SearchAnimeProps> = ({ onSearchChange
         };
     }, [debounce]);
 
-    const updateSearch = (searchText: string) => {
+    const changeText = (searchText: string) => {
         setSearch(searchText);
 
         if (debounce) clearTimeout(debounce);
@@ -31,11 +31,21 @@ const SearchAnime: React.FunctionComponent<SearchAnimeProps> = ({ onSearchChange
         setDebounce(newDebounce);
     };
 
+    const clearText = () => {
+        setSearch('');
+    }
+
+    const cancelText = () => {
+        setSearch('');
+    }
+
     return (
         <SearchBar
             placeholder="Search..."
             platform='ios'
-            onChangeText={updateSearch}
+            onChangeText={changeText}
+            onClear={clearText}
+            onCancel={cancelText}
             value={search}
             clearIcon={{ type: 'antdesign', name: 'close' }}
             searchIcon={{ type: 'antdesign', name: 'search1' }}
