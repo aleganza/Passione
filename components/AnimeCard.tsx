@@ -6,22 +6,20 @@ import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { IAnimeResult } from '@consumet/extensions';
 
 interface TabOneScreenProps {
-    animeResult: IAnimeResult; // Aggiungi questa linea per definire la prop 'diocan'
+    animeResult: IAnimeResult
 }
 
 const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
     useEffect(() => {
-        console.log(':',  animeResult.title.toString())
     }, [])
 
     return (
         <View>
             <Link
                 href={{
-                    pathname: "/modal",
+                    pathname: "/AnimePage",
                     params: {
                         id: animeResult.id,
-                        // title: typeof animeResult.title
                         image: animeResult.image ?? ''
                     }
                 }}
@@ -29,15 +27,20 @@ const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
             >
                 <Pressable>
                     {({ pressed }) => (
-                        <View style={styles.card}>
+                        <View style={[styles.card, {opacity: pressed ? 0.7 : 1 }]}>
                             <Image
-                                style={[styles.image, {opacity: pressed ? 0.7 : 1 }]}
+                                style={styles.image}
                                 source={animeResult.image}
                                 contentFit="cover"
                                 transition={1000}
                                 cachePolicy={'none'}
                             />
-                            <Text style={styles.title}>{animeResult.title.toString()}</Text>
+                            <Text
+                                style={styles.title}
+                                numberOfLines={2}
+                                ellipsizeMode='tail'>
+                                    {animeResult.title.toString()}
+                            </Text>
                         </View>
                     )}
                 </Pressable>
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
     },
     card: {
         width: 120,
-        height: 300,
+        // height: 300,
     },
     image: {
         width: 120,
@@ -62,8 +65,11 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     title: {
+        marginTop: 8,
         color: Colors.text,
-        fontSize: 16
+        fontWeight: 'bold',
+        fontSize: 15,
+        // height: 40
     }
 });
 

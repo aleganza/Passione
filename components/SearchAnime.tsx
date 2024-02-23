@@ -26,7 +26,7 @@ const SearchAnime: React.FunctionComponent<SearchAnimeProps> = ({ onSearchChange
 
         const newDebounce = setTimeout(() => {
             onSearchChange(searchText);
-        }, 1000);
+        }, 300);
 
         setDebounce(newDebounce);
     };
@@ -39,6 +39,7 @@ const SearchAnime: React.FunctionComponent<SearchAnimeProps> = ({ onSearchChange
             value={search}
             clearIcon={{ type: 'antdesign', name: 'close' }}
             searchIcon={{ type: 'antdesign', name: 'search1' }}
+            inputStyle={{ color: Colors.text }}
             inputContainerStyle={{ backgroundColor: Colors.background, paddingBottom: 0 }}
             containerStyle={{ backgroundColor: Colors.overlay }}
         />

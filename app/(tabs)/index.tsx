@@ -10,6 +10,8 @@ export default function TabOneScreen() {
     const [results, setResults] = useState<IAnimeResult[]>();
 
     const handleSearchChange = (searchText: string) => {
+        if(searchText === '') return
+
         const au = new ANIME.AnimeUnity({ url: Utils.proxyUrl })
         const response = au.search(searchText).then(data => {
             setResults(data.results)
@@ -19,7 +21,7 @@ export default function TabOneScreen() {
     return (
         <View style={styles.container}>
             <SearchAnime onSearchChange={handleSearchChange} />
-            <ScrollView style={styles.grid}>
+            <ScrollView contentContainerStyle={styles.grid}>
                 {results?.map(result => (
                     <AnimeCard key={result.id} animeResult={result}></AnimeCard>
                 ))}
@@ -31,12 +33,12 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     grid: {
-        width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'center',
         gap: 10,
     },
     title: {

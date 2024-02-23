@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 const ModalScreen: React.FC = () => {
     const params = useLocalSearchParams();
-    const { id, /* title, */ image } = params;
+    const { id, image } = params;
 
     useEffect(() => {
         console.log('->', id)
@@ -14,7 +14,6 @@ const ModalScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{id}</Text>
             <Image
                 style={styles.image}
                 source={image}
@@ -22,6 +21,7 @@ const ModalScreen: React.FC = () => {
                 transition={1000}
                 cachePolicy={'none'}
             />
+            <Text style={styles.title}>{id}</Text>
         </View>
     );
 }
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
     title: {
         color: Colors.text,
