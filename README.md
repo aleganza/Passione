@@ -4,5 +4,5 @@
 </p>
 
 <p align="center">
-    <img style="width:250px" src="https://github.com/aleganza/Passione/blob/main/assets/images/mockup.jpg?raw=true">
+    <img style="width:250px" src="https://github.com/aleganza/Passione/blob/main/assets/images/mockup.png?raw=true">
 </p>
