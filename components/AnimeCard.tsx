@@ -4,6 +4,7 @@ import { Link } from 'expo-router';
 import { useEffect } from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { IAnimeResult } from '@consumet/extensions';
+import Utils from '@/constants/Utils';
 
 interface TabOneScreenProps {
     animeResult: IAnimeResult
@@ -62,12 +63,12 @@ const styles = StyleSheet.create({
         width: 120,
         height: 200,
         backgroundColor: Colors.foreground,
-        borderRadius: 10
+        borderRadius: Utils.borderRadius
     },
     title: {
         marginTop: 8,
         color: Colors.text,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         fontSize: 15,
         // height: 40
     }

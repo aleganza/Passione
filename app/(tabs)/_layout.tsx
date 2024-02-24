@@ -19,7 +19,7 @@ export default function TabLayout() {
                 headerShown: useClientOnlyValue(false, true),
                 tabBarStyle: { backgroundColor: Colors.background },
                 headerStyle: { backgroundColor: Colors.background },
-                headerTintColor: Colors.text, // Cambia il colore del testo nell'header
+                headerTintColor: Colors.text
             }}>
             <Tabs.Screen
                 name="index"
@@ -32,7 +32,7 @@ export default function TabLayout() {
                 name="two"
                 options={{
                     title: 'Library',
-                    tabBarIcon: ({ color }) => <AntDesign name="book" size={24} color={color} />
+                    tabBarIcon: ({ color }) => <AntDesign name="book" size={28} color={color} />
                 }}
             />
         </Tabs>

@@ -1,4 +1,5 @@
 import AnimeCard from '@/components/AnimeCard';
+import Grid from '@/components/Grid';
 import SearchAnime from '@/components/SearchAnime';
 import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
@@ -8,7 +9,6 @@ import { ScrollView, StyleSheet, View, Text, ActivityIndicator } from 'react-nat
 
 export default function TabOneScreen() {
     const [results, setResults] = useState<IAnimeResult[]>()
-    const [text, setText] = useState<string>()
     const [loading, setLoading] = useState<boolean>(false)
 
     const handleSearchChange = (searchText: string) => {
@@ -20,48 +20,36 @@ export default function TabOneScreen() {
 
         setLoading(true)
 
-        const au = new ANIME.AnimeUnity({ url: Utils.proxyUrl })
-        const response = au.search(searchText).then(data => {
+        const scraper = new ANIME.AnimeUnity({ url: Utils.proxyUrl })
+        const response = scraper.search(searchText).then(data => {
             setResults(data.results)
             setLoading(false)
         })
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView>
             <SearchAnime onSearchChange={handleSearchChange} />
+            
             {loading && 
                 <ActivityIndicator 
                     size="small" 
                     color={Colors.text}
                     style={styles.loading} />}
-            <ScrollView contentContainerStyle={styles.grid}>
+
+            <Grid>
                 {results?.length === 0
-                    ?
-                    <Text style={styles.error}>No results</Text>
-                    :
-                    <>
-                        {results?.map(result => (
+                    ?   <Text style={styles.error}>No results</Text>
+                    :   (results?.map(result => (
                             <AnimeCard key={result.id} animeResult={result}></AnimeCard>
-                        ))}
-                    </>
+                        )))
                 }
-            </ScrollView>
-        </View>
+            </Grid>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // alignItems: 'center',
-    },
-    grid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 10,
-    },
     loading: {
         marginBottom: 10
     },

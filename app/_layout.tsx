@@ -1,16 +1,14 @@
+import Colors from '@/constants/Colors';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { useColorScheme } from '@/components/useColorScheme';
-import { setBackgroundColorAsync } from 'expo-system-ui';
-import Colors from '@/constants/Colors';
 
 export {
     // Catch any errors thrown by the Layout component.
-    ErrorBoundary,
+    ErrorBoundary
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -62,8 +60,17 @@ function RootLayoutNav() {
     return (
         <ThemeProvider value={theme}>
             <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="AnimePage" options={{ presentation: 'card' }} />
+                <Stack.Screen 
+                    name="(tabs)" 
+                    options={{ 
+                        headerShown: false 
+                    }} />
+                <Stack.Screen 
+                    name="AnimePage" 
+                    options={{ 
+                        presentation: 'card', 
+                        headerBackTitle: 'Search' ,
+                    }} />
             </Stack>
         </ThemeProvider>
     );
