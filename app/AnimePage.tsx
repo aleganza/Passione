@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Grid from '@/components/Grid';
 import { AnimeVideoPlayer } from '@/components/AnimeVideoPlayer';
+import AddToLibrary from '@/components/AddToLibrary';
 
 const ModalScreen: React.FC = () => {
     const params = useLocalSearchParams();
@@ -35,7 +36,6 @@ const ModalScreen: React.FC = () => {
         const scraper = new ANIME.AnimeUnity({ url: Utils.proxyUrl })
         const response = scraper.fetchEpisodeSources(id).then(data => {
             setUri(data.sources[0].url)
-            console.log(data.sources[0].url)
             setShowPlayer(true)
         })
     }
@@ -51,6 +51,10 @@ const ModalScreen: React.FC = () => {
                 cachePolicy={'none'}
             />
             <Text style={styles.title}>{id}</Text>
+
+            <AddToLibrary animeInfo={results}>
+                
+            </AddToLibrary>
 
             {loading && 
                 <ActivityIndicator 
