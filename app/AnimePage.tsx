@@ -16,6 +16,7 @@ const ModalScreen: React.FC = () => {
 
     const [results, setResults] = useState<IAnimeInfo>();
     const [uri, setUri] = useState<string | undefined>('');
+    const [title, setTitle] = useState<string | undefined>('');
     const [showPlayer, setShowPlayer] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -26,6 +27,7 @@ const ModalScreen: React.FC = () => {
             const scraper = new ANIME.AnimeUnity({ url: Utils.proxyUrl });
             const data = await scraper.fetchAnimeInfo(animeId);
             setResults(data);
+            setTitle(data.title.toString() ?? '')
             setLoading(false)
         };
 
@@ -41,7 +43,7 @@ const ModalScreen: React.FC = () => {
     }
 
     return (
-        <ScrollView contentContainerStyle={[styles.container, ]}>
+        <ScrollView contentContainerStyle={[styles.container,]}>
             <AnimeVideoPlayer uri={uri} show={showPlayer}></AnimeVideoPlayer>
             <Image
                 style={styles.image}
@@ -50,28 +52,27 @@ const ModalScreen: React.FC = () => {
                 transition={100}
                 cachePolicy={'none'}
             />
-            <Text style={styles.title}>{id}</Text>
 
-            <AddToLibrary animeInfo={results}>
-                
-            </AddToLibrary>
-
-            {loading && 
-                <ActivityIndicator 
-                    size="small" 
+            {loading
+                ? <ActivityIndicator
+                    size="small"
                     color={Colors.text}
-                    style={styles.loading} />}
-            <Grid>
-                {results?.episodes?.map((episode, index) => (
-                    <Pressable key={index} onPress={() => {loadEpisode(episode.id)}}>
-                        {({ pressed }) => (
-                            <View style={[styles.episodeCard, { opacity: pressed ? 0.7 : 1 }]}>
-                                <Text style={styles.episodeTitle}>{index}</Text>
-                            </View>
-                        )}
-                    </Pressable>
-                ))}
-            </Grid>
+                    style={styles.loading} />
+                : <>
+                    <Text style={styles.title}>{title}</Text>
+                    <AddToLibrary animeInfo={results}></AddToLibrary>
+                    <Grid>
+                        {results?.episodes?.map((episode, index) => (
+                            <Pressable key={index} onPress={() => { loadEpisode(episode.id) }}>
+                                {({ pressed }) => (
+                                    <View style={[styles.episodeCard, { opacity: pressed ? 0.7 : 1 }]}>
+                                        <Text style={styles.episodeTitle}>{index}</Text>
+                                    </View>
+                                )}
+                            </Pressable>
+                        ))}
+                    </Grid>
+                </>}
         </ScrollView>
     );
 };

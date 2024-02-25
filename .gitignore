@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules/
+
+# builds
 android/
 ios/
 

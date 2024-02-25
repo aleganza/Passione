@@ -5,7 +5,7 @@ import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
 import { ANIME, IAnimeResult } from '@consumet/extensions';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text } from 'react-native';
 
 export default function TabOneScreen() {
     const [results, setResults] = useState<IAnimeResult[]>()
@@ -41,7 +41,11 @@ export default function TabOneScreen() {
                 {results?.length === 0
                     ?   <Text style={styles.error}>No results</Text>
                     :   (results?.map(result => (
-                            <AnimeCard key={result.id} animeResult={result}></AnimeCard>
+                            <AnimeCard 
+                                key={result.id} 
+                                id={result.id} 
+                                image={result.image} 
+                                title={result.title.toString()}/>
                         )))
                 }
             </Grid>

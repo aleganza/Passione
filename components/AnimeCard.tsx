@@ -1,16 +1,17 @@
 import Colors from '@/constants/Colors';
+import Utils from '@/constants/Utils';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
-import { IAnimeResult } from '@consumet/extensions';
-import Utils from '@/constants/Utils';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-interface TabOneScreenProps {
-    animeResult: IAnimeResult
+interface AnimeCardProps {
+    id: string
+    image: string | undefined
+    title: string | undefined
 }
 
-const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
+const AnimeCard: React.FC<AnimeCardProps> = ({ id, image, title }) => {
     useEffect(() => {
     }, [])
 
@@ -20,8 +21,8 @@ const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
                 href={{
                     pathname: "/AnimePage",
                     params: {
-                        id: animeResult.id,
-                        image: animeResult.image ?? ''
+                        id: id,
+                        image: image ?? ''
                     }
                 }}
                 asChild
@@ -31,7 +32,7 @@ const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
                         <View style={[styles.card, {opacity: pressed ? 0.7 : 1 }]}>
                             <Image
                                 style={styles.image}
-                                source={animeResult.image}
+                                source={image ?? ''}
                                 contentFit="cover"
                                 transition={1000}
                                 cachePolicy={'none'}
@@ -40,7 +41,7 @@ const TabOneScreen: React.FC<TabOneScreenProps> = ({ animeResult }) => {
                                 style={styles.title}
                                 numberOfLines={2}
                                 ellipsizeMode='tail'>
-                                    {animeResult.title.toString()}
+                                    {title}
                             </Text>
                         </View>
                     )}
@@ -74,4 +75,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TabOneScreen;
+export default AnimeCard;
