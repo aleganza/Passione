@@ -2,7 +2,7 @@ import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
 import { IAnimeInfo } from '@consumet/extensions';
 import { AntDesign, Feather } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { MMKV } from 'react-native-mmkv'
 import isExpoGo from '@/modules/isExpoGo';
@@ -14,23 +14,34 @@ interface AddToLibraryProps {
 const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
     const [inLibrary, setInLibrary] = useState<boolean>(false)
 
+    const isInLibrary = () => {
+        if(isExpoGo()) return
+
+        const storage = new MMKV()
+        storage.getString(animeInfo!.id!) === undefined
+            ? setInLibrary(false)
+            : setInLibrary(true)
+    }
+
     const addToLibrary = () => {
-        setInLibrary(true)
+        if(isExpoGo()) return
         
-        if(!isExpoGo()) {
-            const storage = new MMKV()
-            storage.set(animeInfo!.id!, animeInfo?.cover ?? '')
-        }
+        const storage = new MMKV()
+        storage.set(animeInfo!.id!, animeInfo?.cover ?? '')
+
+        setInLibrary(true)
     }
     
     const removeFromLibrary = () => {
-        setInLibrary(false)
+        if(isExpoGo()) return
 
-        if(!isExpoGo()) {
-            const storage = new MMKV()
-            storage.delete(animeInfo!.id!)
-        }
+        const storage = new MMKV()
+        storage.delete(animeInfo!.id!)
+        
+        setInLibrary(false)
     }
+
+    isInLibrary()
 
     return (
         <Pressable onPress={inLibrary ? removeFromLibrary : addToLibrary}>
