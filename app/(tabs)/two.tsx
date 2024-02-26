@@ -3,12 +3,13 @@ import Grid from '@/components/Grid';
 import Colors from '@/constants/Colors';
 import { AnimeLibraryCard } from '@/models/types';
 import isExpoGo from '@/modules/isExpoGo';
-import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { RefreshControl, ScrollView, StyleSheet, Text } from 'react-native';
 import { MMKV } from 'react-native-mmkv';
 
 export default function TabTwoScreen() {
     const [results, setResults] = useState<AnimeLibraryCard[]>([])
+    const [refreshing, setRefreshing] = useState(false)
 
     const getAnimeCardsFromLibrary = () => {
         if (!isExpoGo()) {
@@ -36,17 +37,30 @@ export default function TabTwoScreen() {
         getAnimeCardsFromLibrary()
     }, [])
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+
+        getAnimeCardsFromLibrary()
+    }, []);
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+            contentContainerStyle={styles.container}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
             <Grid>
                 {results?.length === 0
-                    ? <Text style={styles.noItems}>Library empty</Text>
+                    ? <Text style={styles.noItems}>Library empty{"\n"}Scroll down to refresh</Text>
                     : (results?.map(result => (
-                        <AnimeCard 
+                        <AnimeCard
                             key={result.animeId}
                             id={result.animeId}
                             image={result.animeImage}
-                            title={result.animeId}/>
+                            title={result.animeId} />
                     )))}
             </Grid>
         </ScrollView>
@@ -60,6 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     noItems: {
+        textAlign: 'center',
         color: Colors.textShy,
         fontSize: 20,
     },
