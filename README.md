@@ -9,4 +9,4 @@
 
 # How to install
 
-Use ![Sideloadly](https://sideloadly.io/) or any other method to install IPAs
+Use ![Sideloadly](https://sideloadly.io) or any other method to install IPAs
