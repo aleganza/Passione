@@ -12,25 +12,25 @@ export default function TabTwoScreen() {
     const [refreshing, setRefreshing] = useState(false)
 
     const getAnimeCardsFromLibrary = () => {
-        if (!isExpoGo()) {
-            const storage = new MMKV()
-            const keys = storage.getAllKeys()
+        if(isExpoGo()) return
 
-            if (keys === undefined) {
-                setResults([])
-                return
-            }
+        const storage = new MMKV()
+        const keys = storage.getAllKeys()
 
-            const data: AnimeLibraryCard[] = []
-            for (let key of keys) {
-                data.push({
-                    animeId: key,
-                    animeImage: storage.getString(key) ?? ''
-                });
-            }
-
-            setResults(data)
+        if (keys === undefined) {
+            setResults([])
+            return
         }
+
+        var data: AnimeLibraryCard[] = []
+        for (let key of keys) {
+            data.push({
+                animeId: key,
+                animeImage: storage.getString(key) ?? ''
+            });
+        }
+
+        setResults(data)
     }
 
     useEffect(() => {
