@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         gap: 10,
+        marginBottom: 50
     },
 });
 

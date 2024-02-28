@@ -12,8 +12,8 @@ import EpisodesViewer from '@/components/EpisodesViewer';
 
 const ModalScreen: React.FC = () => {
     const params = useLocalSearchParams();
-    const { id, image } = params;
-    const animeId = typeof id === 'string' ? id : '';
+    const { id, image } = params
+    const animeId = typeof id === 'string' ? id : ''
 
     const [results, setResults] = useState<IAnimeInfo>()
     const [uri, setUri] = useState<string | undefined>('')
@@ -37,6 +37,8 @@ const ModalScreen: React.FC = () => {
     }, [animeId])
 
     const handleChangeEpisodes = (page: number) => {
+        console.log('ciao')
+        console.log(page)
         setRefreshEpisodes(true)
         getAnimeInfo(animeId, page)
     }
@@ -51,7 +53,6 @@ const ModalScreen: React.FC = () => {
 
     return (
         <ScrollView contentContainerStyle={[styles.container,]}>
-            <AnimeVideoPlayer uri={uri} show={showPlayer}></AnimeVideoPlayer>
             <Image
                 style={styles.image}
                 source={image}
@@ -88,6 +89,7 @@ const ModalScreen: React.FC = () => {
                             ))}
                         </Grid>}
                 </>}
+                <AnimeVideoPlayer uri={uri} show={showPlayer}></AnimeVideoPlayer>
         </ScrollView>
     );
 };

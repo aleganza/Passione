@@ -17,6 +17,7 @@ export const AnimeVideoPlayer: React.FC<AnimeVideoPlayerProps> = ({ uri = '', sh
             setShowPlayer(false)
             setIsFullscreen(false);
             videoRef?.current?.pauseAsync();
+            videoRef?.current?.setPositionAsync(0)
         }
     };
 
