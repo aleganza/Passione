@@ -12,13 +12,16 @@ interface AddToLibraryProps {
 }
 
 const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
+    if (!animeInfo?.id)
+        return <Text>Anime information is not available.</Text>;
+
     const [inLibrary, setInLibrary] = useState<boolean>(false)
 
     const isInLibrary = () => {
         if(isExpoGo()) return
 
         const storage = new MMKV()
-        storage.getString(animeInfo!.id!) === undefined
+        storage.getString(animeInfo.id) === undefined
             ? setInLibrary(false)
             : setInLibrary(true)
     }
@@ -27,7 +30,7 @@ const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
         if(isExpoGo()) return
         
         const storage = new MMKV()
-        storage.set(animeInfo!.id!, animeInfo?.cover ?? '')
+        storage.set(animeInfo?.id, animeInfo?.cover ?? '')
 
         setInLibrary(true)
     }
@@ -36,7 +39,7 @@ const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
         if(isExpoGo()) return
 
         const storage = new MMKV()
-        storage.delete(animeInfo!.id!)
+        storage.delete(animeInfo?.id)
         
         setInLibrary(false)
     }
