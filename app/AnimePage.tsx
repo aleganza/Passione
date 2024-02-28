@@ -37,8 +37,6 @@ const ModalScreen: React.FC = () => {
     }, [animeId])
 
     const handleChangeEpisodes = (page: number) => {
-        console.log('ciao')
-        console.log(page)
         setRefreshEpisodes(true)
         getAnimeInfo(animeId, page)
     }

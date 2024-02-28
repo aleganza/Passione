@@ -6,8 +6,9 @@
 <p align="center">Watch anime for free on your iPhone without ads.</p>
 
 <p align="center">
-    <img alt="license" src="https://img.shields.io/github/license/aleganza/Passione"> 
-    <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/aleganza/Passione">
+    <img alt="license" src="https://img.shields.io/github/license/aleganza/passione"> 
+    <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/aleganza/passione">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/aleganza/passione">
     <img alt="Platform" src="https://img.shields.io/badge/platform-ios-red">
 </p>
 
