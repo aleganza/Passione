@@ -44,7 +44,9 @@ const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
         setInLibrary(false)
     }
 
-    isInLibrary()
+    useEffect(() => {
+        isInLibrary()
+    }, [])
 
     return (
         <Pressable onPress={inLibrary ? removeFromLibrary : addToLibrary}>
