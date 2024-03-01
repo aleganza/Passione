@@ -1,14 +1,15 @@
+import AddToLibrary from '@/components/AddToLibrary';
+import { AnimeVideoPlayer } from '@/components/AnimeVideoPlayer';
+import EpisodesViewer from '@/components/EpisodesViewer';
+import Grid from '@/components/Grid';
+import LoadingIndicator from '@/components/LoadingIndicator';
 import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
-import { ANIME, IAnimeInfo, IAnimeEpisode } from '@consumet/extensions';
+import { ANIME, IAnimeInfo } from '@consumet/extensions';
 import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Grid from '@/components/Grid';
-import { AnimeVideoPlayer } from '@/components/AnimeVideoPlayer';
-import AddToLibrary from '@/components/AddToLibrary';
-import EpisodesViewer from '@/components/EpisodesViewer';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const ModalScreen: React.FC = () => {
     const params = useLocalSearchParams();
@@ -46,7 +47,16 @@ const ModalScreen: React.FC = () => {
         const response = scraper.fetchEpisodeSources(id).then(data => {
             setUri(data.sources[0].url)
             setShowPlayer(true)
+            setTimeout(() => {
+                setEpisodeBtnState(-1)
+            }, 3000)
         })
+    }
+
+    const [episodeBtnState, setEpisodeBtnState] = useState<number>();
+    
+    const handleEpisodeClick = (episodeNumber: number) => {
+        setEpisodeBtnState(episodeNumber)
     }
 
     return (
@@ -60,10 +70,7 @@ const ModalScreen: React.FC = () => {
             />
 
             {loading
-                ? <ActivityIndicator
-                    size="small"
-                    color={Colors.text}
-                    style={styles.loading} />
+                ? <LoadingIndicator/>
                 : <>
                     <Text style={styles.title}>{title}</Text>
                     <AddToLibrary animeInfo={results}></AddToLibrary>
@@ -71,23 +78,24 @@ const ModalScreen: React.FC = () => {
                         animeInfo={results}
                         onChangeEpisodes={handleChangeEpisodes}/>
                     {refreshEpisodes
-                        ? <ActivityIndicator
-                            size="small"
-                            color={Colors.text}
-                            style={styles.loading} />
+                        ? <LoadingIndicator/>
                         : <Grid>
                             {results?.episodes?.map((episode, index) => (
-                                <Pressable key={index} onPress={() => { loadEpisode(episode.id) }}>
-                                    {({ pressed }) => (
-                                        <View style={[styles.episodeCard, { opacity: pressed ? 0.7 : 1 }]}>
-                                            <Text style={styles.episodeTitle}>{episode.number}</Text>
-                                        </View>
-                                    )}
+                                <Pressable 
+                                    key={index} 
+                                    onPress={() => { loadEpisode(episode.id); handleEpisodeClick(episode.number) }}>
+                                        {({ pressed }) => (
+                                            <View style={[styles.episodeCard, { opacity: pressed ? 0.7 : 1 }]}>
+                                                {episodeBtnState === episode.number
+                                                    ? <LoadingIndicator marginBottom={0}/>
+                                                    : <Text style={styles.episodeTitle}>{episode.number}</Text>}
+                                            </View>
+                                        )}
                                 </Pressable>
                             ))}
                         </Grid>}
-                </>}
-                <AnimeVideoPlayer uri={uri} show={showPlayer}></AnimeVideoPlayer>
+            </>}
+            <AnimeVideoPlayer uri={uri} show={showPlayer}></AnimeVideoPlayer>
         </ScrollView>
     );
 };
@@ -95,7 +103,9 @@ const ModalScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        gap: 20
+        gap: 20,
+        paddingTop: 100,
+        // paddingHorizontal: 10
     },
     title: {
         color: Colors.text,
@@ -122,9 +132,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.foreground,
         borderRadius: Utils.borderRadius
     },
-    loading: {
-        marginBottom: 10
-    }
 });
 
 export default ModalScreen;

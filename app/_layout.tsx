@@ -66,10 +66,13 @@ function RootLayoutNav() {
                         headerShown: false 
                     }} />
                 <Stack.Screen 
-                    name="AnimePage" 
+                    name="AnimePage"
                     options={{ 
                         presentation: 'card', 
-                        headerBackTitle: 'Search' ,
+                        headerBackTitle: 'Search',
+                        title: '\n',
+                        headerTransparent: true,
+                        headerBlurEffect: 'dark',
                     }} />
             </Stack>
         </ThemeProvider>

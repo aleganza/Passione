@@ -1,12 +1,13 @@
 import AnimeCard from '@/components/AnimeCard';
 import Grid from '@/components/Grid';
 import HeaderText from '@/components/HeaderText';
+import LoadingIndicator from '@/components/LoadingIndicator';
 import SearchAnime from '@/components/SearchAnime';
 import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
 import { ANIME, IAnimeResult } from '@consumet/extensions';
 import { useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 
 export default function TabOneScreen() {
     const [results, setResults] = useState<IAnimeResult[]>()
@@ -33,12 +34,9 @@ export default function TabOneScreen() {
             <HeaderText text='Search'/>
 
             <SearchAnime onSearchChange={handleSearchChange} />
-            
+
             {loading && 
-                <ActivityIndicator 
-                    size="small" 
-                    color={Colors.text}
-                    style={styles.loading} />}
+                <LoadingIndicator/>}
 
             <Grid>
                 {results?.length === 0
@@ -60,9 +58,6 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 100,
         paddingHorizontal: 10
-    },
-    loading: {
-        marginBottom: 10
     },
     error: {
         color: Colors.textShy,
