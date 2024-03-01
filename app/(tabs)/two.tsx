@@ -1,10 +1,11 @@
 import AnimeCard from '@/components/AnimeCard';
 import Grid from '@/components/Grid';
+import HeaderText from '@/components/HeaderText';
 import Colors from '@/constants/Colors';
 import { AnimeLibraryCard } from '@/models/types';
 import isExpoGo from '@/modules/isExpoGo';
 import { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, StyleSheet, Text } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { MMKV } from 'react-native-mmkv';
 
 export default function TabTwoScreen() {
@@ -52,26 +53,36 @@ export default function TabTwoScreen() {
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-            <Grid>
-                {results?.length === 0
-                    ? <Text style={styles.noItems}>Library empty{"\n"}Scroll down to refresh</Text>
-                    : (results?.map(result => (
-                        <AnimeCard
-                            key={result.animeId}
-                            id={result.animeId}
-                            image={result.animeImage}
-                            title={result.animeId} />
-                    )))}
-            </Grid>
+            <HeaderText text='Library'/>
+
+            <View style={styles.view}>
+                <Grid>
+                    {results?.length === 0
+                        ? <Text style={styles.noItems}>Library empty{"\n"}Scroll down to refresh</Text>
+                        : (results?.map(result => (
+                            <AnimeCard
+                                key={result.animeId}
+                                id={result.animeId}
+                                image={result.animeImage}
+                                title={result.animeId} />
+                        )))}
+                </Grid>
+            </View>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        height: '100%',
+        marginTop: 100,
+        paddingHorizontal: 10,
+    },
+    view: {
+        height: '100%',
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     noItems: {
         textAlign: 'center',

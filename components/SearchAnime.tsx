@@ -41,7 +41,7 @@ const SearchAnime: React.FunctionComponent<SearchAnimeProps> = ({ onSearchChange
 
     return (
         <SearchBar
-            placeholder="Search..."
+            placeholder="Search"
             platform='ios'
             onChangeText={changeText}
             onClear={clearText}

@@ -1,5 +1,6 @@
 import AnimeCard from '@/components/AnimeCard';
 import Grid from '@/components/Grid';
+import HeaderText from '@/components/HeaderText';
 import SearchAnime from '@/components/SearchAnime';
 import Colors from '@/constants/Colors';
 import Utils from '@/constants/Utils';
@@ -28,7 +29,9 @@ export default function TabOneScreen() {
     };
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
+            <HeaderText text='Search'/>
+
             <SearchAnime onSearchChange={handleSearchChange} />
             
             {loading && 
@@ -54,6 +57,10 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        paddingTop: 100,
+        paddingHorizontal: 10
+    },
     loading: {
         marginBottom: 10
     },
