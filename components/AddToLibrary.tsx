@@ -30,7 +30,7 @@ const AddToLibrary: React.FC<AddToLibraryProps> = ({ animeInfo }) => {
         if(isExpoGo()) return
         
         const storage = new MMKV()
-        storage.set(animeInfo?.id, animeInfo?.cover ?? '')
+        storage.set(animeInfo?.id, animeInfo?.image ?? '')
 
         setInLibrary(true)
     }
