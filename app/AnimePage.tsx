@@ -48,15 +48,15 @@ const ModalScreen: React.FC = () => {
             setUri(data.sources[0].url)
             setShowPlayer(true)
             setTimeout(() => {
-                setEpisodeBtnState(-1)
-            }, 3000)
+                setEpisodeBtn(-1)
+            }, 5000)
         })
     }
 
-    const [episodeBtnState, setEpisodeBtnState] = useState<number>();
+    const [episodeBtn, setEpisodeBtn] = useState<number>(-1);
     
     const handleEpisodeClick = (episodeNumber: number) => {
-        setEpisodeBtnState(episodeNumber)
+        setEpisodeBtn(episodeNumber)
     }
 
     return (
@@ -83,10 +83,11 @@ const ModalScreen: React.FC = () => {
                             {results?.episodes?.map((episode, index) => (
                                 <Pressable 
                                     key={index} 
+                                    disabled={episodeBtn !== -1}
                                     onPress={() => { loadEpisode(episode.id); handleEpisodeClick(episode.number) }}>
                                         {({ pressed }) => (
-                                            <View style={[styles.episodeCard, { opacity: pressed ? 0.7 : 1 }]}>
-                                                {episodeBtnState === episode.number
+                                            <View style={[styles.episodeCard, { opacity: pressed || episodeBtn !== -1 ? 0.7 : 1 }]}>
+                                                {episodeBtn === episode.number
                                                     ? <LoadingIndicator marginBottom={0}/>
                                                     : <Text style={styles.episodeTitle}>{episode.number}</Text>}
                                             </View>
